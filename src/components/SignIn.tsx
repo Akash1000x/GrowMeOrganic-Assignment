@@ -3,6 +3,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 type FormProps = {
   name: string;
@@ -13,8 +14,13 @@ type FormProps = {
 export default function SignIn() {
   const [value, setValue] = React.useState<FormProps>({ name: "", email: "", phone_number: "" });
   const [error, setError] = React.useState<string>("");
+  const { authMessage, setIsAuthenticated, setAuthMessage } = useAuth();
 
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    setError(authMessage);
+  }, [authMessage]);
 
   const handelFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,6 +32,8 @@ export default function SignIn() {
       return;
     }
     window.localStorage.setItem("user", JSON.stringify(value));
+    setIsAuthenticated(true);
+    setAuthMessage("");
     navigate("/");
     setError("");
     setValue({ name: "", email: "", phone_number: "" });
