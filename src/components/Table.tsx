@@ -46,14 +46,8 @@ export default function Table() {
 
   return (
     <div id="table">
-      <style>
-        {`
-          .MuiDataGrid-filler {
-            display: none !important;
-          }
-        `}
-      </style>
       <DataGrid
+        className="t"
         rows={data}
         columns={columns}
         loading={loading}
