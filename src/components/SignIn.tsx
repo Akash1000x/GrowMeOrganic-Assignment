@@ -8,11 +8,11 @@ import { useAuth } from "../hooks/useAuth";
 type FormProps = {
   name: string;
   email: string;
-  phone_number: string;
+  phoneNumber: string;
 };
 
 export default function SignIn() {
-  const [value, setValue] = React.useState<FormProps>({ name: "", email: "", phone_number: "" });
+  const [value, setValue] = React.useState<FormProps>({ name: "", email: "", phoneNumber: "" });
   const [error, setError] = React.useState<string>("");
   const { authMessage, setIsAuthenticated, setAuthMessage } = useAuth();
 
@@ -22,13 +22,13 @@ export default function SignIn() {
     setError(authMessage);
   }, [authMessage]);
 
-  const handelFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!value.name || !value.email || !value.phone_number) {
-      setError("Please fill all the filleds");
+    if (!value.name || !value.email || !value.phoneNumber) {
+      setError("Please fill all the fields");
       return;
-    } else if (value.phone_number.length !== 10) {
-      setError("Please enter valid phone number");
+    } else if (!/^[0-9]{10}$/.test(value.phoneNumber)) {
+      setError("Please enter a valid phone number");
       return;
     }
     window.localStorage.setItem("user", JSON.stringify(value));
@@ -36,37 +36,39 @@ export default function SignIn() {
     setAuthMessage("");
     navigate("/");
     setError("");
-    setValue({ name: "", email: "", phone_number: "" });
+    setValue({ name: "", email: "", phoneNumber: "" });
   };
 
   return (
     <>
-      <form onSubmit={handelFormSubmit} id="form">
+      <form onSubmit={handleFormSubmit} id="form">
         <Stack direction="column" spacing={3} width={500} position={"relative"}>
           <TextField
-            id="outlined-basic"
+            id="name-input"
             type="text"
             label="Full Name"
+            name="name"
             variant="outlined"
             value={value.name}
-            onErrorCapture={(e) => console.log(e)}
             onChange={(e) => setValue({ ...value, name: e.target.value })}
           />
           <TextField
-            id="outlined-basic"
+            id="email-input"
             type="email"
             label="Email"
+            name="email"
             variant="outlined"
             value={value.email}
             onChange={(e) => setValue({ ...value, email: e.target.value })}
           />
           <TextField
-            id="outlined-basic"
-            type="number"
+            id="phoneNumber-input"
+            type="tel"
             label="Phone Number"
+            name="phoneNumber"
             variant="outlined"
-            value={value.phone_number}
-            onChange={(e) => setValue({ ...value, phone_number: e.target.value })}
+            value={value.phoneNumber}
+            onChange={(e) => setValue({ ...value, phoneNumber: e.target.value })}
           />
           <Button variant="contained" type="submit">
             Sign-in
