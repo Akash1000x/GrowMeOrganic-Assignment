@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setIsAuthenticated(true);
     } else {
       setIsAuthenticated(false);
-      navigate("/Sign-in");
     }
   }, [navigate]);
 

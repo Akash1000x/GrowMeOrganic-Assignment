@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export default function ProtectedRoute({ element }: { element: React.ReactNode }) {
+export default function ProtectedRoute() {
   const { isAuthenticated, setAuthMessage } = useAuth();
 
   React.useEffect(() => {
@@ -17,5 +17,5 @@ export default function ProtectedRoute({ element }: { element: React.ReactNode }
     return <Navigate to="/Sign-in" />;
   }
 
-  return element;
+  return <Outlet />;
 }

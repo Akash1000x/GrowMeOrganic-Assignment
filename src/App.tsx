@@ -12,7 +12,10 @@ export default function App() {
       <Container maxWidth="lg">
         <Routes>
           <Route path="/Sign-in" element={<SignIn />} />
-          <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
         </Routes>
       </Container>
     </AuthProvider>
